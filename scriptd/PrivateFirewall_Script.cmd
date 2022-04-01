@@ -1,4 +1,4 @@
-:: This file is a sample batch file which can show status of firewall in windows
+:: This file is a sample batch file which can show status of private profile of firewall in windows
 :: @AUTHOR: Nikhil Bhat
 :: @DATE: 20th, March, 2020
 :: @OPERATING SYSTEM: WINDOWS 10
