@@ -1,6 +1,11 @@
 export const navigations = [
+    // {
+    //     name: 'Connected Server',
+    //     path: '/runcmd/serverlist',
+    //     icon: 'dashboard',
+    // },
     {
-        name: 'Run by Text',
+        name: 'Run command',
         path: '/runcmd/default',
         icon: 'dashboard',
     },
@@ -8,5 +13,5 @@ export const navigations = [
         name: 'Run by File',
         path: '/runcmd-input-file/runbyfile',
         icon: 'dashboard',
-    },
+    }
 ]

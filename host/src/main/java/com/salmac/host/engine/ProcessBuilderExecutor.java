@@ -30,9 +30,7 @@ public class ProcessBuilderExecutor {
     }
     
     public List<String> runMultipleCmd(String cmds) {
-    	return run(cmds.replaceAll("%0A", " && ")
-                //.replaceAll("'+'"," ")
-                .replaceAll("___", " "));
+    	return run(cmds);
     }
 
     public List<String> runScript(String fileName){
@@ -150,7 +148,27 @@ public class ProcessBuilderExecutor {
         }
         return responseList;
     }
-    
 
 
+    /***
+     * react is appending = at the end of the command. remove that =
+     * Please check @str is not null before call
+     * @param str
+     * @return
+     */
+    public String prepareCMD(String str) {
+        if(str.endsWith("=")){
+            str = str.substring(0, str.length() - 1);
+        }
+        String s = str.trim()
+                .replaceAll("___", " ")
+                .replaceAll("%0A", " && ")
+                .replaceAll("\\+"," ");
+//        if(OSNAME.isWindows()){
+//            s = s.replaceAll("%0A", " && ");
+//        } else {
+//            s = s.replaceAll("%0A", " | ")
+//        }
+        return s;
+    }
 }

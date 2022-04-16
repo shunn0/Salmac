@@ -15,16 +15,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.salmac.cleint.engine.files.FileStorageService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://hostapp:8080")
 @RestController
 public class Controller {
-	
+
 	@Autowired
 	ProcessBuilderExecutor executor;
 
 	@Autowired
     private FileStorageService fileStorageService;
-	
+
 	//@CrossOrigin(origins = "http://10.0.2.15:3000")
 	@GetMapping("/runcmd")
 	public String runcmdGet() {
@@ -35,7 +35,7 @@ public class Controller {
 	@PostMapping("/runcmd")
 	public List<String> runcmd(@RequestBody String cmd) {
 		if (!Utils.isEmptyString(cmd)) {
-			cmd = removeAppendedDelim(cmd);
+			cmd = prepareCMD(cmd);
 			//System.out.println(cmds.trim());
 			return executor.runMultipleCmd(cmd);
 		} else {
@@ -43,12 +43,13 @@ public class Controller {
 		}
 	}
 
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "http://hostapp:8080")
 	@PostMapping("/runmulticmd")
 	public List<String> runmulticmd(@RequestBody String cmds) {
+		System.out.println("##############Command received:"+cmds);
 		if (!Utils.isEmptyString(cmds)) {
-			cmds = removeAppendedDelim(cmds);
-			//System.out.println(cmds.trim());
+			cmds = prepareCMD(cmds);
+			System.out.println("##############Command after parse:"+cmds);
 			return executor.runMultipleCmd(cmds);
 		} else {
 			return new ArrayList<>();
@@ -60,12 +61,19 @@ public class Controller {
         String fileName = fileStorageService.storeFile(file);
         return executor.runScript(fileName);
     }
-	
-	
-	private String removeAppendedDelim(String str) {
-		if(!Utils.isEmptyString(str)) {
-			return str.trim().substring(0, str.length() - 1);
+
+
+	public String prepareCMD(String str) {
+		if(str.startsWith("cmds")){
+			str = str.substring(5);
 		}
-		return str;
-	}	
+		if(str.endsWith("=")){
+			str = str.substring(0, str.length() - 1);
+		}
+		String s = str.trim()
+				.replaceAll("___", " ")
+				.replaceAll("%0A", " && ")
+				.replaceAll("\\+"," ");
+		return s;
+	}
 }

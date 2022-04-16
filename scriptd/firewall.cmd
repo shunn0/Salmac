@@ -10,8 +10,6 @@
 
 :: ECHO OFF
 @echo off
-
-
 SETLOCAL
 :: CALLING Firewall function
 CALL :Firewall %~1

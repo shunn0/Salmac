@@ -1,4 +1,5 @@
 import {
+    SERVER_LIST_DATA,
     RUN_CMD_DATA,
     RUN_UPLOAD_FILE_DATA,
     RUN_UPLOAD_ERROR
@@ -10,6 +11,12 @@ const initialState = {
 
 const RunCommandReducer = function (state = initialState, action) {
     switch (action.type) {
+        case SERVER_LIST_DATA: {
+            return {
+                ...state,
+                commandResponse: {...action.payload},
+            }
+        }
         case RUN_CMD_DATA: {
             return {
                 ...state,

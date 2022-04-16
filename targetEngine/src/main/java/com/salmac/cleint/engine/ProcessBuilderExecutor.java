@@ -30,9 +30,7 @@ public class ProcessBuilderExecutor {
     }
     
     public List<String> runMultipleCmd(String cmds) {
-    	return run(cmds.replaceAll("%0A", " && ")
-                .replaceAll("'+'"," ")
-                .replaceAll("___", " "));
+    	return run(cmds);
     }
 
     public List<String> runScript(String fileName){
@@ -40,27 +38,34 @@ public class ProcessBuilderExecutor {
     }
     
     private List<String> runForUnix(String cmd){
+        System.out.println("Inside Linux runner");
     	ProcessBuilder processBuilder = new ProcessBuilder();
-    	processBuilder.command("bash", "-c", cmd);
-        
+        System.out.println("1");
+    	//processBuilder.command("bash", "-c", cmd);
+        System.out.println("2");
         List<String> responseList = new ArrayList<String>();
-
+        System.out.println("3");
         try {
-            Process process = processBuilder.start();
+            //Process process = processBuilder.start();
+            Process process = Runtime.getRuntime().exec(cmd);
+            System.out.println("4");
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
+            System.out.println("5");
             while ((line = reader.readLine()) != null) {
             	responseList.add(line);
             }
-
+            System.out.println("6");
             int exitCode = process.waitFor();
             responseList.add("\nExited with error code : " + exitCode);
-
+            process.destroy();
         } catch (IOException e) {
+            System.out.println("IOException");
             e.printStackTrace();
             responseList.add("500:Internal server error : " + e.getMessage());
         } catch (InterruptedException e) {
+            System.out.println("InterruptedException");
             e.printStackTrace();
             responseList.add("500:Internal server error : " + e.getMessage());
         }
@@ -69,6 +74,7 @@ public class ProcessBuilderExecutor {
 
     private List<String> runForWindows(String cmd){
     	ProcessBuilder processBuilder = new ProcessBuilder();
+        System.out.println("#############"+cmd+"#############");
         processBuilder.command("cmd.exe", "/c", cmd);
         
         List<String> responseList = new ArrayList<String>();

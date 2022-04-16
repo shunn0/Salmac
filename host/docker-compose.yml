@@ -44,11 +44,32 @@ services:
         SPRING_APPLICATION_JSON: '{
               "file.upload-dir"  : ".",
               "server.port" : "8082",
-              "salmac.host" : "http://hostapp:8080"
+              "salmac.host" : "http://hostapp:8080",
+              "salmac.host.self":"http://clientapp1:8082"
             }'
       volumes:
         - .m2:/root/.m2
       stdin_open: true
       tty: true
+  clientapp2:
+    depends_on:
+      - hostapp
+    build:
+      dockerfile: Dockerfile
+      context: ../targetEngine
+    restart: on-failure
+    ports:
+      - "8084:8082"
+    environment:
+      SPRING_APPLICATION_JSON: '{
+                "file.upload-dir"  : ".",
+                "server.port" : "8082",
+                "salmac.host" : "http://hostapp:8080",
+                "salmac.host.self":"http://clientapp2:8082"
+              }'
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
 volumes:
   db:

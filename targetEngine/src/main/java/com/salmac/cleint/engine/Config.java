@@ -29,13 +29,16 @@ public class Config {
     @Value("${salmac.host}")
     private String salmacHost;
 
+    @Value("${salmac.host.self}")
+    private String selfAddress;
+
     @Value("${server.port}")
     private String serverPort;
 
     @Scheduled(fixedRate = Constants.SERVER_STATUS_CHECK_INTERVAL)
     public void scheduleFixedRateTask() throws UnknownHostException {
         final String URI = salmacHost+"/server/heartbeat";
-        String ipAddr = Inet4Address.getLocalHost().getHostAddress()+":"+serverPort;
+        //String ipAddr = Inet4Address.getLocalHost().getHostAddress()+":"+serverPort;
         RestTemplate restTemplate = new RestTemplate();
 
 
@@ -43,7 +46,7 @@ public class Config {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
-        map.add("targetEngineAddress", ipAddr);
+        map.add("targetEngineAddress", selfAddress);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
 

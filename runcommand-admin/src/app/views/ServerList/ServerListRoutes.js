@@ -2,14 +2,14 @@ import React, { lazy } from 'react'
 import Loadable from 'app/components/Loadable/Loadable'
 import { authRoles } from '../../auth/authRoles'
 
-const RunCmd = Loadable(lazy(() => import('./RunCmd')))
+const ServerList = Loadable(lazy(() => import('./ServerList')))
 
-const runCmdRoutes = [
+const serverListRoutes = [
     {
-        path: '/runcmd/default',
-        element: <RunCmd />,
+        path: '/runcmd/serverlist',
+        element: <ServerList />,
         auth: authRoles.admin,
     },
 ]
 
-export default runCmdRoutes
+export default serverListRoutes
