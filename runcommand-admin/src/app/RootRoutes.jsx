@@ -2,6 +2,7 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import runCmdRoutes from './views/runcmd/RunCmdRoutes'
 import runCmdInputRoutes from './views/runcmd-input-file/RunCmdInputRoutes'
+import serverListRoutes from './views/serverList/ServerListRoutes'
 
 const redirectRoute = [
     {
@@ -20,6 +21,7 @@ const errorRoute = [
 const routes = [
     ...runCmdRoutes,
     ...runCmdInputRoutes,
+    ...serverListRoutes,
     ...redirectRoute,
     ...errorRoute,
 ]

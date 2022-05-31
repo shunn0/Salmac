@@ -41,7 +41,7 @@ export const runScriptFromFile = (formData, onUploadProgress) => {
 }
 
 export const getServersList = () => (dispatch) => {
-    console.log();
+    console.log("!!!!!!!!!!!!!!!!!!!");
     axios.get(apiUrl + '/server/all').then((res) => {
         dispatch({
             type: SERVER_LIST_DATA,

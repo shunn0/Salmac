@@ -6,7 +6,7 @@ const ServerList = Loadable(lazy(() => import('./ServerList')))
 
 const serverListRoutes = [
     {
-        path: '/runcmd/serverlist',
+        path: '/serverList/serverlist',
         element: <ServerList />,
         auth: authRoles.admin,
     },
